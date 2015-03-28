@@ -1,8 +1,8 @@
 package oldpersonthing.opt;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +15,7 @@ public class NurseLoginActivity extends ActionBarActivity implements View.OnClic
     CheckBox isNewNurse;
     Button next;
     EditText name;
+    static String nurseName ="Joy";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,10 @@ public class NurseLoginActivity extends ActionBarActivity implements View.OnClic
         switch(v.getId()){
             case R.id.buttonNextNurse:
                 if(isNewNurse.isChecked()){
-                    startActivity(new Intent(this,NewNurseActivity.class));
+                    EditText nameNurse = (EditText) findViewById(R.id.editTextNameNurse);
+
+                    nurseName = nameNurse.getText().toString();
+                    startActivity(new Intent(this, NewNurseActivity.class));
                 }else{
 
                 }

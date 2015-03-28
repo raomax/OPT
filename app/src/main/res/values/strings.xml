@@ -12,4 +12,6 @@
     <string name="title_activity_pateint_login">PateintLoginActivity</string>
     <string name="title_activity_new_patient">NewPatientActivity</string>
     <string name="title_activity_new_nurse">NewNurseActivity</string>
+    <string name="title_activity_patient_schedueler">PatientSchedueler</string>
+    <string name="title_activity_old_person_scheduel">OldPersonScheduel</string>
 </resources>
