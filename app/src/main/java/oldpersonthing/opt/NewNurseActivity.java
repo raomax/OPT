@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class NewNurseActivity extends ActionBarActivity implements View.OnClickListener{
     public static final String PATIENT_NAME = "PATIENT_NAME";
     Button addOldPerson;
-    ArrayList<RegUser> oldPeoples;
+    ArrayList<String> oldPeoples;
     EditText oldPersonName;
     final String NURSE_NAME = NurseLoginActivity.nurseName;
     ListView listView;
@@ -75,7 +75,7 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.buttonAddOldPerson:
                 if(oldPersonName.getText().toString().length()>1){
-                    RegUser user = new RegUser(oldPersonName.getText().toString(), NURSE_NAME);
+                    String user = oldPersonName.getText().toString();
                     new WriteNurseUser().execute(user);
                     oldPeoples.add(user);
                     Log.w("ARRAY LIST", oldPeoples.toString());
@@ -88,20 +88,20 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
                 oldPersonName.setText("");
         }
     }
-    private class WriteNurseUser extends AsyncTask<RegUser,Void,Void> {
+    private class WriteNurseUser extends AsyncTask<String,Void,Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected Void doInBackground(RegUser... usr) {
+        protected Void doInBackground(String... usr) {
             Firebase ref = new Firebase("https://dazzling-heat-1446.firebaseio.com");
             Firebase nurse = ref.child(NurseLoginActivity.nurseName);
-            Firebase patient = nurse.child(usr[0].getFullName());
-            Firebase patientName = nurse.child(PATIENT_NAME).child(usr[0].getFullName());
-            patientName.setValue(usr[0].getFullName());
-            patient.setValue(usr[0].getFullName());
+            Firebase patient = nurse.child(usr[0]);
+            Firebase patientName = nurse.child(PATIENT_NAME).child(usr[0]);
+            patientName.setValue(usr[0]);
+            patient.setValue(usr[0]);
             return null;
         }
     }

@@ -27,21 +27,25 @@ public class LoadPatients {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //ArrayList<Object>
-                String rawName = dataSnapshot.getValue().toString();
-                rawName =  rawName.replace("{","");
-                rawName = rawName.replace("}","");
-                Scanner scan = new Scanner(rawName);
-                Log.w("TESTING GET", rawName);
-                scan.useDelimiter(", ");
-                while(scan.hasNext()){
-                    rawNames.add(scan.next());
+                try {
+                    String rawName = dataSnapshot.getValue().toString();
+                    rawName = rawName.replace("{", "");
+                    rawName = rawName.replace("}", "");
+                    Scanner scan = new Scanner(rawName);
+                    Log.w("TESTING GET", rawName);
+                    scan.useDelimiter(", ");
+                    while (scan.hasNext()) {
+                        rawNames.add(scan.next());
+                    }
+                    for (int i = 0; i < rawNames.size(); i++) {
+                        String s = rawNames.get(i);
+                        s = s.substring((s.indexOf("=") + 1));
+                        rawNames.set(i, s);
+                    }
+                    Log.w("TESTING GET", rawNames.toString());
+                }catch(NullPointerException e){
+                    Log.e(e.toString(),e.fillInStackTrace().toString());
                 }
-                for(int i=0;i<rawNames.size();i++){
-                    String s = rawNames.get(i);
-                    s = s.substring((s.indexOf("=")+1));
-                    rawNames.set(i,s);
-                }
-                Log.w("TESTING GET", rawNames.toString());
 
             }
             @Override

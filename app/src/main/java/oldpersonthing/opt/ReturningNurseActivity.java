@@ -21,30 +21,34 @@ import java.util.ArrayList;
 
 public class ReturningNurseActivity extends ActionBarActivity implements View.OnClickListener{
     Button addOldPerson;
-    ArrayList<RegUser> oldPeoples;
+    ArrayList<String> oldPeoples;
     EditText oldPersonName;
     final String NURSE_NAME = NurseLoginActivity.nurseName;
     ListView listView;
-    static RegUser oldPersonsName;
+    Firebase nnurse;
+    static String oldPersonsName;
+    LoadPatients patients;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_nurse);
+        nnurse = new Firebase("https://dazzling-heat-1446.firebaseio.com").child(NURSE_NAME);
+        patients = new LoadPatients(nnurse);
+
         addOldPerson = (Button) findViewById(R.id.buttonAddOldPerson);
         addOldPerson.setOnClickListener(this);
-        oldPeoples = new ArrayList();
+        oldPeoples = patients.getPatients();
         oldPersonName = (EditText) findViewById(R.id.editTextOldPersonName);
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                oldPersonsName = (RegUser) listView.getItemAtPosition(position);
+                oldPersonsName = (String) listView.getItemAtPosition(position);
                 startActivity(new Intent(getBaseContext(),PatientSchedueler.class));
-                finish();
+
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,28 +77,33 @@ public class ReturningNurseActivity extends ActionBarActivity implements View.On
         switch (v.getId()){
             case R.id.buttonAddOldPerson:
                 if(oldPersonName.getText().toString().length()>1){
-                    oldPeoples.add(new RegUser(oldPersonName.getText().toString(), NURSE_NAME));
-                    new ReadPatients().execute(NURSE_NAME);
+                    String s = oldPersonName.getText().toString();
+                    new WriteNurseUser().execute(s);
+                    oldPeoples.add(s);
                     Log.w("ARRAY LIST", oldPeoples.toString());
                     ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this,
                             android.R.layout.simple_list_item_1, oldPeoples.toArray());
-
                     listView.setAdapter(adapter);
+
 
 
                 }
         }
     }
-    private class ReadPatients extends AsyncTask<String, Void, Void>{
+    private class WriteNurseUser extends AsyncTask<String,Void,Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
         @Override
-        protected Void doInBackground(String... params) {
-            Firebase ref = new Firebase("https://dazzling-heat-1446.firebaseio.com");
-            Firebase nnurse = ref.child(params[0]);
-            LoadPatients s = new LoadPatients(nnurse);
-            s.getPatients();
-            Log.w("LOAD PATIENTS","it's being called");
+        protected Void doInBackground(String... usr) {
+            Firebase patient = nnurse.child(usr[0]);
+            Firebase patientName = nnurse.child(NewNurseActivity.PATIENT_NAME).child(usr[0]);
+            patientName.setValue(usr[0]);
+            patient.setValue(usr[0]);
             return null;
         }
     }
+
 }

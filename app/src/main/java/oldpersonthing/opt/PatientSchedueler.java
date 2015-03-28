@@ -22,7 +22,7 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
     EditText time;
     Button addEvent;
     ListView listViewEvents;
-    ArrayList<Appointment> apps;
+    ArrayList<String> apps;
     final RegUser PATIENT = NewNurseActivity.oldPersonsName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
                     Log.w("TIME",time.getText().toString());
 
                    new WriteApps().execute(new Appointment
-                           (event.getText().toString(),time.getText().toString()));
+                           (event.getText().toString(),time.getText().toString()).toString());
 
                     Log.w("PATIENT EVENTS", apps.toString());
                     ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this,
@@ -88,14 +88,14 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
                 break;
         }
     }
-    private class WriteApps extends AsyncTask<Appointment,Void,Void> {
+    private class WriteApps extends AsyncTask<String,Void,Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected Void doInBackground(Appointment... app) {
+        protected Void doInBackground(String... app) {
             Firebase ref = new Firebase("https://dazzling-heat-1446.firebaseio.com");
             Firebase appointment = ref.child(PATIENT.getNurseNameAndNumber())
                     .child(PATIENT.getFullName()).child(app[0].toString());
