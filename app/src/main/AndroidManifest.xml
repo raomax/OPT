@@ -46,6 +46,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="oldpersonthing.opt.util.PateintLoginActivity" />
         </activity>
+        <activity
+            android:name=".NewNurseActivity"
+            android:label="@string/title_activity_new_nurse"
+            android:parentActivityName=".NurseLoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="oldpersonthing.opt.NurseLoginActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -1,35 +1,33 @@
 package oldpersonthing.opt;
 
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
+
+import java.util.ArrayList;
 
 
-public class NurseLoginActivity extends ActionBarActivity implements View.OnClickListener{
-    CheckBox isNewNurse;
-    Button next;
-    EditText name;
+public class NewNurseActivity extends ActionBarActivity implements View.OnClickListener{
+    Button addOldPerson;
+    ArrayList<RegUser> oldPeoples;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        isNewNurse = (CheckBox) findViewById(R.id.checkBoxNewNurse);
-        next = (Button) findViewById(R.id.buttonNextNurse);
-        next.setOnClickListener(this);
-        name = (EditText) findViewById(R.id.editTextNameNurse);
+        setContentView(R.layout.activity_new_nurse);
+        addOldPerson = (Button) findViewById(R.id.buttonAddOldPerson);
+        addOldPerson.setOnClickListener(this);
+        oldPeoples = new ArrayList();
+
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
+        getMenuInflater().inflate(R.menu.menu_new_nurse, menu);
         return true;
     }
 
@@ -50,13 +48,9 @@ public class NurseLoginActivity extends ActionBarActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.buttonNextNurse:
-                if(isNewNurse.isChecked()){
-                    startActivity(new Intent(this,NewNurseActivity.class));
-                }else{
+        switch (v.getId()){
+            case R.id.buttonAddOldPerson:
 
-                }
         }
     }
 }
