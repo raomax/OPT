@@ -55,12 +55,13 @@ public class NurseLoginActivity extends ActionBarActivity implements View.OnClic
             case R.id.buttonNextNurse:
                 if(isNewNurse.isChecked()){
                     EditText nameNurse = (EditText) findViewById(R.id.editTextNameNurse);
-
                     nurseName = nameNurse.getText().toString();
+
                     startActivity(new Intent(this, NewNurseActivity.class));
                 }else{
 
                 }
         }
     }
+
 }

@@ -1,5 +1,6 @@
 package oldpersonthing.opt;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -11,12 +12,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.firebase.client.Firebase;
+
+import java.util.ArrayList;
+
 
 public class PatientSchedueler extends ActionBarActivity implements View.OnClickListener {
     EditText event;
     EditText time;
     Button addEvent;
     ListView listViewEvents;
+    ArrayList<Appointment> apps;
     final RegUser PATIENT = NewNurseActivity.oldPersonsName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +31,11 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
         addEvent = (Button) findViewById(R.id.buttonAddEvent);
         addEvent.setOnClickListener(this);
         event = (EditText) findViewById(R.id.editTextEvent);
+        event.setOnClickListener(this);
         time = (EditText) findViewById(R.id.editTextTime);
+        time.setOnClickListener(this);
         listViewEvents = (ListView) findViewById(R.id.listViewEvents);
+        apps = new ArrayList<>();
     }
 
 
@@ -59,14 +68,35 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
                 if(event.getText().toString().length()>1){
                     Log.w("EVENT", event.getText().toString());
                     Log.w("TIME",time.getText().toString());
-                   PATIENT.appointments.add(new Appointment(event.getText().toString(),time.getText().toString()));
-                    Log.w("PATIENT EVENTS", PATIENT.appointments.toString());
+
+                   new WriteApps().execute(new Appointment
+                           (event.getText().toString(),time.getText().toString()));
+                    Log.w("PATIENT EVENTS", apps.toString());
                     ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this,
-                            android.R.layout.simple_list_item_1, PATIENT.appointments.toArray());
+                            android.R.layout.simple_list_item_1, apps.toArray());
                     listViewEvents.setAdapter(adapter);
-
-
                 }
+            case R.id.editTextEvent:
+                event.setText("");
+                break;
+            case R.id.editTextTime:
+                time.setText("");
+                break;
+        }
+    }
+    private class WriteApps extends AsyncTask<Appointment,Void,Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Appointment... app) {
+            Firebase ref = new Firebase("https://dazzling-heat-1446.firebaseio.com");
+            Firebase appointment = ref.child(PATIENT.getNurseNameAndNumber())
+                    .child(PATIENT.getFullName()).child(PATIENT.getFullName());
+            appointment.setValue(app[0].toString());
+            return null;
         }
     }
 }

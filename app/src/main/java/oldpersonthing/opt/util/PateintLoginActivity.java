@@ -75,4 +75,5 @@ public class PateintLoginActivity extends ActionBarActivity implements View.OnCl
         }
 
     }
+
 }

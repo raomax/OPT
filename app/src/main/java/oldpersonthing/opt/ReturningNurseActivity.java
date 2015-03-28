@@ -1,7 +1,6 @@
 package oldpersonthing.opt;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -14,12 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.firebase.client.Firebase;
-
 import java.util.ArrayList;
 
 
-public class NewNurseActivity extends ActionBarActivity implements View.OnClickListener{
+public class ReturningNurseActivity extends ActionBarActivity implements View.OnClickListener{
     Button addOldPerson;
     ArrayList<RegUser> oldPeoples;
     EditText oldPersonName;
@@ -43,7 +40,6 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
                 finish();
             }
         });
-        Firebase.setAndroidContext(this);
     }
 
 
@@ -74,9 +70,7 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.buttonAddOldPerson:
                 if(oldPersonName.getText().toString().length()>1){
-                    RegUser user = new RegUser(oldPersonName.getText().toString(), NURSE_NAME);
-                    new WriteNurseUser().execute(user);
-                    oldPeoples.add(user);
+                    oldPeoples.add(new RegUser(oldPersonName.getText().toString(), NURSE_NAME));
                     Log.w("ARRAY LIST", oldPeoples.toString());
                     ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this,
                             android.R.layout.simple_list_item_1, oldPeoples.toArray());
@@ -84,23 +78,7 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
                     listView.setAdapter(adapter);
 
 
-
                 }
-        }
-    }
-    private class WriteNurseUser extends AsyncTask<RegUser,Void,Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(RegUser... usr) {
-            Firebase ref = new Firebase("https://dazzling-heat-1446.firebaseio.com");
-            Firebase nurse = ref.child(NurseLoginActivity.nurseName);
-            Firebase patient = nurse.child(usr[0].getFullName());
-            patient.setValue(usr[0].getFullName());
-            return null;
         }
     }
 }

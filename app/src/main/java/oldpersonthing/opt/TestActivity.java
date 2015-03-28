@@ -17,8 +17,8 @@ import java.util.Map;
 public class TestActivity extends ActionBarActivity {
     Firebase ref;
     Firebase usersRef;
-    NurseUser userTest2;
-    Map<String, NurseUser> users;
+    //NurseUser userTest2;
+   // Map<String, NurseUser> users;
     ArrayList<String> s = new ArrayList();
     EditText email;
     EditText password;
