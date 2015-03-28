@@ -22,6 +22,30 @@
             android:name=".TestActivity"
             android:label="@string/title_activity_test" >
         </activity>
+        <activity
+            android:name=".NurseLoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="oldpersonthing.opt.MainActivity" />
+        </activity>
+        <activity
+            android:name=".util.PateintLoginActivity"
+            android:label="@string/title_activity_pateint_login"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="oldpersonthing.opt.MainActivity" />
+        </activity>
+        <activity
+            android:name=".util.NewPatientActivity"
+            android:label="@string/title_activity_new_patient"
+            android:parentActivityName=".util.PateintLoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="oldpersonthing.opt.util.PateintLoginActivity" />
+        </activity>
     </application>
 
 </manifest>
