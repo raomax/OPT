@@ -55,6 +55,14 @@
                 android:value="oldpersonthing.opt.NurseLoginActivity" />
         </activity>
         <activity
+            android:name=".ReturningNurseActivity"
+            android:label="@string/title_activity_new_nurse"
+            android:parentActivityName=".NurseLoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="oldpersonthing.opt.NurseLoginActivity" />
+        </activity>
+        <activity
             android:name=".PatientSchedueler"
             android:label="@string/title_activity_patient_schedueler"
             android:parentActivityName=".NewNurseActivity" >

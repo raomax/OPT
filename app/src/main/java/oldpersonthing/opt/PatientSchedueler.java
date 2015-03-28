@@ -66,15 +66,19 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
         switch (v.getId()){
             case R.id.buttonAddEvent:
                 if(event.getText().toString().length()>1){
+
                     Log.w("EVENT", event.getText().toString());
                     Log.w("TIME",time.getText().toString());
 
                    new WriteApps().execute(new Appointment
                            (event.getText().toString(),time.getText().toString()));
+
                     Log.w("PATIENT EVENTS", apps.toString());
                     ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this,
                             android.R.layout.simple_list_item_1, apps.toArray());
                     listViewEvents.setAdapter(adapter);
+                    event.setText("");
+                    time.setText("");
                 }
             case R.id.editTextEvent:
                 event.setText("");
@@ -94,7 +98,7 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
         protected Void doInBackground(Appointment... app) {
             Firebase ref = new Firebase("https://dazzling-heat-1446.firebaseio.com");
             Firebase appointment = ref.child(PATIENT.getNurseNameAndNumber())
-                    .child(PATIENT.getFullName()).child(PATIENT.getFullName());
+                    .child(PATIENT.getFullName()).child(app[0].toString());
             appointment.setValue(app[0].toString());
             return null;
         }

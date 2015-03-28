@@ -1,6 +1,7 @@
 package oldpersonthing.opt;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 
@@ -71,6 +74,7 @@ public class ReturningNurseActivity extends ActionBarActivity implements View.On
             case R.id.buttonAddOldPerson:
                 if(oldPersonName.getText().toString().length()>1){
                     oldPeoples.add(new RegUser(oldPersonName.getText().toString(), NURSE_NAME));
+                    new ReadPatients().execute(NURSE_NAME);
                     Log.w("ARRAY LIST", oldPeoples.toString());
                     ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this,
                             android.R.layout.simple_list_item_1, oldPeoples.toArray());
@@ -79,6 +83,18 @@ public class ReturningNurseActivity extends ActionBarActivity implements View.On
 
 
                 }
+        }
+    }
+    private class ReadPatients extends AsyncTask<String, Void, Void>{
+
+        @Override
+        protected Void doInBackground(String... params) {
+            Firebase ref = new Firebase("https://dazzling-heat-1446.firebaseio.com");
+            Firebase nnurse = ref.child(params[0]);
+            LoadPatients s = new LoadPatients(nnurse);
+            s.getPatients();
+            Log.w("LOAD PATIENTS","it's being called");
+            return null;
         }
     }
 }

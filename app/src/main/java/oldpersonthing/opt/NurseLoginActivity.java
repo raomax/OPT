@@ -1,6 +1,7 @@
 package oldpersonthing.opt;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
+import com.firebase.client.Firebase;
 
 
 public class NurseLoginActivity extends ActionBarActivity implements View.OnClickListener{
@@ -24,6 +27,8 @@ public class NurseLoginActivity extends ActionBarActivity implements View.OnClic
         next = (Button) findViewById(R.id.buttonNextNurse);
         next.setOnClickListener(this);
         name = (EditText) findViewById(R.id.editTextNameNurse);
+        name.setOnClickListener(this);
+        Firebase.setAndroidContext(this);
     }
 
 
@@ -56,12 +61,31 @@ public class NurseLoginActivity extends ActionBarActivity implements View.OnClic
                 if(isNewNurse.isChecked()){
                     EditText nameNurse = (EditText) findViewById(R.id.editTextNameNurse);
                     nurseName = nameNurse.getText().toString();
-
+                    new WriteNurse().execute(nurseName);
                     startActivity(new Intent(this, NewNurseActivity.class));
                 }else{
-
+                    EditText nameNurse = (EditText) findViewById(R.id.editTextNameNurse);
+                    nurseName = nameNurse.getText().toString();
+                    startActivity(new Intent(this, ReturningNurseActivity.class));
                 }
+                break;
+            case R.id.editTextName:
+                name.setText("");
+                break;
         }
     }
+    private class WriteNurse extends AsyncTask<String,Void,Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
+        @Override
+        protected Void doInBackground(String... nurse) {
+            Firebase ref = new Firebase("https://dazzling-heat-1446.firebaseio.com");
+            Firebase nnurse = ref.child(nurse[0]);
+            nnurse.setValue(nurse[0]);
+            return null;
+        }
+    }
 }

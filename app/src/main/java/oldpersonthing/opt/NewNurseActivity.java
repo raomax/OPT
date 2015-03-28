@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 
 public class NewNurseActivity extends ActionBarActivity implements View.OnClickListener{
+    public static final String PATIENT_NAME = "PATIENT_NAME";
     Button addOldPerson;
     ArrayList<RegUser> oldPeoples;
     EditText oldPersonName;
@@ -34,13 +35,13 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
         addOldPerson.setOnClickListener(this);
         oldPeoples = new ArrayList();
         oldPersonName = (EditText) findViewById(R.id.editTextOldPersonName);
+        oldPersonName.setOnClickListener(this);
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 oldPersonsName = (RegUser) listView.getItemAtPosition(position);
                 startActivity(new Intent(getBaseContext(),PatientSchedueler.class));
-                finish();
             }
         });
         Firebase.setAndroidContext(this);
@@ -82,10 +83,9 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
                             android.R.layout.simple_list_item_1, oldPeoples.toArray());
 
                     listView.setAdapter(adapter);
-
-
-
                 }
+            case R.id.editTextOldPersonName:
+                oldPersonName.setText("");
         }
     }
     private class WriteNurseUser extends AsyncTask<RegUser,Void,Void> {
@@ -99,6 +99,8 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
             Firebase ref = new Firebase("https://dazzling-heat-1446.firebaseio.com");
             Firebase nurse = ref.child(NurseLoginActivity.nurseName);
             Firebase patient = nurse.child(usr[0].getFullName());
+            Firebase patientName = nurse.child(PATIENT_NAME).child(usr[0].getFullName());
+            patientName.setValue(usr[0].getFullName());
             patient.setValue(usr[0].getFullName());
             return null;
         }
