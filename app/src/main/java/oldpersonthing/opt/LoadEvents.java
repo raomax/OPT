@@ -13,17 +13,17 @@ import java.util.Scanner;
 /**
  * Created by Robin Onsay on 3/28/2015.
  */
-public class LoadPatients {
-    Firebase nurse;
-    private ArrayList<String> rawNames;
+public class LoadEvents {
+    Firebase name;
+    private ArrayList<String> rawEvents;
 
-    public LoadPatients(Firebase nurse){
-        this.nurse = nurse.child(NewNurseActivity.PATIENT_NAME);
-        rawNames = new ArrayList<>();
+    public LoadEvents(Firebase name){
+        this.name = name;
+        rawEvents = new ArrayList<>();
     }
 
     public ArrayList<String> getPatients(){
-        nurse.addValueEventListener(new ValueEventListener() {
+        name.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //ArrayList<Object>
@@ -34,14 +34,14 @@ public class LoadPatients {
                 Log.w("TESTING GET", rawName);
                 scan.useDelimiter(", ");
                 while(scan.hasNext()){
-                    rawNames.add(scan.next());
+                    rawEvents.add(scan.next());
                 }
-                for(int i=0;i<rawNames.size();i++){
-                    String s = rawNames.get(i);
+                for(int i=0;i< rawEvents.size();i++){
+                    String s = rawEvents.get(i);
                     s = s.substring((s.indexOf("=")+1));
-                    rawNames.set(i,s);
+                    rawEvents.set(i,s);
                 }
-                Log.w("TESTING GET", rawNames.toString());
+                Log.w("TESTING GET", rawEvents.toString());
 
             }
             @Override
@@ -49,6 +49,6 @@ public class LoadPatients {
                 Log.w("TESSTING GET", firebaseError.toString());
             }
         });
-        return rawNames;
+        return rawEvents;
     }
 }
