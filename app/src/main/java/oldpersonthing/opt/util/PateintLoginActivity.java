@@ -7,15 +7,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import oldpersonthing.opt.R;
 
 public class PateintLoginActivity extends ActionBarActivity implements View.OnClickListener {
     EditText name;
-    CheckBox newPatient;
-    boolean isNewPatient = false;
+    EditText nurse;
+    static String Name;
+    static String Nurse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,10 +23,11 @@ public class PateintLoginActivity extends ActionBarActivity implements View.OnCl
        name = (EditText) findViewById(R.id.editTextName);
         name.setOnClickListener(this);
 
-        newPatient = (CheckBox) findViewById(R.id.checkBoxNewPatient);
+        nurse = (EditText) findViewById(R.id.editTextNurseName);
 
         Button next = (Button)  findViewById(R.id.buttonNext);
         next.setOnClickListener(this);
+
     }
 
 
@@ -54,7 +55,7 @@ public class PateintLoginActivity extends ActionBarActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
-        isNewPatient = newPatient.isChecked();
+
     }
 
     @Override
@@ -64,11 +65,11 @@ public class PateintLoginActivity extends ActionBarActivity implements View.OnCl
                 name.setText("");
                 break;
             case R.id.buttonNext:
-                if(isNewPatient){
-                    startActivity(new Intent(this, NewPatientActivity.class));
-                }else{
-
-                }
+                Name = name.getText().toString();
+                Nurse = nurse.getText().toString();
+                startActivity(new Intent(this, NewPatientActivity.class));
+                //new LoadEvents()
+                break;
 
 
 

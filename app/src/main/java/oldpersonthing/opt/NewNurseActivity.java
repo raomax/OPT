@@ -24,9 +24,10 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
     Button addOldPerson;
     ArrayList<String> oldPeoples;
     EditText oldPersonName;
-    final String NURSE_NAME = NurseLoginActivity.nurseName;
+    final static String NURSE_NAME = NurseLoginActivity.nurseName;
     ListView listView;
-    static RegUser oldPersonsName;
+    static String oldPersonsName = "fred";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,14 +38,24 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
         oldPersonName = (EditText) findViewById(R.id.editTextOldPersonName);
         oldPersonName.setOnClickListener(this);
         listView = (ListView) findViewById(R.id.listView);
+        listView.setItemsCanFocus(false);
+
+
+        final Intent intent = new Intent(this,PatientSchedueler.class);
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                oldPersonsName = (RegUser) listView.getItemAtPosition(position);
-                startActivity(new Intent(getBaseContext(),PatientSchedueler.class));
+
+                oldPersonsName = (String) listView.getItemAtPosition(position);
+                Log.w("OLD PERSONS NAME", oldPersonsName);
+                startActivity(intent);
+
             }
         });
         Firebase.setAndroidContext(this);
+
     }
 
 
@@ -63,6 +74,7 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_settings) {
             return true;
         }
@@ -78,11 +90,12 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
                     String user = oldPersonName.getText().toString();
                     new WriteNurseUser().execute(user);
                     oldPeoples.add(user);
-                    Log.w("ARRAY LIST", oldPeoples.toString());
-                    ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this,
-                            android.R.layout.simple_list_item_1, oldPeoples.toArray());
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                            android.R.layout.simple_list_item_1, oldPeoples);
 
                     listView.setAdapter(adapter);
+                    Log.w("ARRAY LIST", oldPeoples.toString());
+
                 }
             case R.id.editTextOldPersonName:
                 oldPersonName.setText("");

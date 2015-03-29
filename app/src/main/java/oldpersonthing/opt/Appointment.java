@@ -13,6 +13,6 @@ public class Appointment extends RegUser {
 
     @Override
     public String toString() {
-        return event +", "+time ;
+        return event +"-"+time ;
     }
 }

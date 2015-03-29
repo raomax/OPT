@@ -23,11 +23,25 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
     Button addEvent;
     ListView listViewEvents;
     ArrayList<String> apps;
-    final RegUser PATIENT = NewNurseActivity.oldPersonsName;
+    LoadEvents events;
+    String PATIENT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_schedueler);
+        Log.w("TESTTTT","TESSST");
+        if(ReturningNurseActivity.oldPersonsName!=null)
+            PATIENT =ReturningNurseActivity.oldPersonsName;
+        else if(NewNurseActivity.oldPersonsName!=null)
+            PATIENT =NewNurseActivity.oldPersonsName;
+        Firebase.setAndroidContext(this);
+        String s = ReturningNurseActivity.NURSE_NAME;
+        Log.w("PS",s + " " + PATIENT);
+
+        Firebase patient = new Firebase("https://dazzling-heat-1446.firebaseio.com")
+                .child(s).child(PATIENT);
+        events = new LoadEvents(patient);
+        events.getPatients();
         addEvent = (Button) findViewById(R.id.buttonAddEvent);
         addEvent.setOnClickListener(this);
         event = (EditText) findViewById(R.id.editTextEvent);
@@ -36,6 +50,9 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
         time.setOnClickListener(this);
         listViewEvents = (ListView) findViewById(R.id.listViewEvents);
         apps = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, apps);
+        listViewEvents.setAdapter(adapter);
     }
 
 
@@ -54,6 +71,12 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if(id == R.id.action_refresh_patient_scheduler){
+            apps = events.getRawEvents();
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, apps);
+            listViewEvents.setAdapter(adapter);
+        }
         if (id == R.id.action_settings) {
             return true;
         }
@@ -69,16 +92,17 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
 
                     Log.w("EVENT", event.getText().toString());
                     Log.w("TIME",time.getText().toString());
-
-                   new WriteApps().execute(new Appointment
-                           (event.getText().toString(),time.getText().toString()).toString());
+                    Appointment a = new Appointment
+                            (event.getText().toString(),time.getText().toString());
+                   new WriteApps().execute(a.toString());
 
                     Log.w("PATIENT EVENTS", apps.toString());
-                    ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this,
-                            android.R.layout.simple_list_item_1, apps.toArray());
-                    listViewEvents.setAdapter(adapter);
+                    apps.add(a.toString());
                     event.setText("");
                     time.setText("");
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                            android.R.layout.simple_list_item_1, apps);
+                    listViewEvents.setAdapter(adapter);
                 }
             case R.id.editTextEvent:
                 event.setText("");
@@ -97,8 +121,8 @@ public class PatientSchedueler extends ActionBarActivity implements View.OnClick
         @Override
         protected Void doInBackground(String... app) {
             Firebase ref = new Firebase("https://dazzling-heat-1446.firebaseio.com");
-            Firebase appointment = ref.child(PATIENT.getNurseNameAndNumber())
-                    .child(PATIENT.getFullName()).child(app[0].toString());
+            Firebase appointment = ref.child(NurseLoginActivity.nurseName)
+                    .child(PATIENT).child(app[0].toString());
             appointment.setValue(app[0].toString());
             return null;
         }

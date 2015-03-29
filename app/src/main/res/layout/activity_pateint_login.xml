@@ -8,15 +8,15 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <CheckBox
-        android:layout_width="187dp"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Patient"
-        android:id="@+id/checkBoxNewPatient"
+        android:inputType="textPersonName"
+        android:text="Nurse Name"
+        android:ems="10"
+        android:id="@+id/editTextNurseName"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.05"
-        android:textSize="25dp"
-        android:checked="false" />
+        android:layout_weight="0.05" />
 
     <EditText
         android:layout_width="match_parent"

@@ -67,7 +67,7 @@ public class NurseLoginActivity extends ActionBarActivity implements View.OnClic
                     EditText nameNurse = (EditText) findViewById(R.id.editTextNameNurse);
                     nurseName = nameNurse.getText().toString();
                     startActivity(new Intent(this, ReturningNurseActivity.class));
-                }
+        }
                 break;
             case R.id.editTextName:
                 name.setText("");

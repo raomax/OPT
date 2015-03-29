@@ -6,7 +6,22 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="oldpersonthing.opt.util.NewPatientActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/listViewEventList"
+        android:layout_below="@+id/textViewEventsFor"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:descendantFocusability="blocksDescendants"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Events For"
+        android:id="@+id/textViewEventsFor"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="40dp" />
 </RelativeLayout>

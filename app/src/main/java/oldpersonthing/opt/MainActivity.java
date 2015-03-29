@@ -1,6 +1,7 @@
 package oldpersonthing.opt;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -15,9 +16,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button pill = (Button) findViewById(R.id.buttonPill);
+        pill.setOnClickListener(this);
         final Button patient = (Button) findViewById(R.id.patientButton);
         patient.setOnClickListener(this);
         final Button nurse = (Button) findViewById(R.id.nurseButton);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/verdana.ttf");
+        nurse.setTypeface(face);
+        patient.setTypeface(face);
+        pill.setTypeface(face);
         nurse.setOnClickListener(this);
 //        startActivity(new Intent(this,TestActivity.class));
 //        finish();
