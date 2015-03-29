@@ -94,6 +94,7 @@ public class NewNurseActivity extends ActionBarActivity implements View.OnClickL
                             android.R.layout.simple_list_item_1, oldPeoples);
 
                     listView.setAdapter(adapter);
+
                     Log.w("ARRAY LIST", oldPeoples.toString());
 
                 }

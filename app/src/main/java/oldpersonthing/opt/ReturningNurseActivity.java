@@ -28,6 +28,7 @@ public class ReturningNurseActivity extends ActionBarActivity implements View.On
     Firebase nnurse;
     static String oldPersonsName;
     LoadPatients patients;
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,9 @@ public class ReturningNurseActivity extends ActionBarActivity implements View.On
         oldPersonName = (EditText) findViewById(R.id.editTextOldPersonName);
         listView = (ListView) findViewById(R.id.listView);
         listView.setItemsCanFocus(false);
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, oldPeoples);
+        listView.setAdapter(adapter);
         final Intent intent = new Intent(this,PatientSchedueler.class);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -69,10 +73,7 @@ public class ReturningNurseActivity extends ActionBarActivity implements View.On
 
         //noinspection SimplifiableIfStatement
         if(id == R.id.action_refresh_New_nurse){
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, oldPeoples);
-
-            listView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
             return true;
         }
         if (id == R.id.action_settings) {
@@ -89,11 +90,14 @@ public class ReturningNurseActivity extends ActionBarActivity implements View.On
                 if(oldPersonName.getText().toString().length()>1){
                     String s = oldPersonName.getText().toString();
                     new WriteNurseUser().execute(s);
-                    oldPeoples.add(s);
+                    //oldPeoples.add(s);
+                    adapter.add(s);
                     Log.w("ARRAY LIST", oldPeoples.toString());
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                            android.R.layout.simple_list_item_1, oldPeoples);
-                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+//                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                            android.R.layout.simple_list_item_1, oldPeoples);
+//                    listView.setAdapter(adapter);
+
 
 
 

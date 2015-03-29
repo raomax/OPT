@@ -17,7 +17,7 @@
         android:layout_alignParentStart="true"
         android:textColor="#ffffffff"
         android:background="#ff2b85ed"
-        />
+        android:textSize="17dp" />
 
     <Button
         android:layout_width="fill_parent"
@@ -28,16 +28,18 @@
         android:layout_centerHorizontal="true"
         android:textColor="#ffffffff"
         android:background="#ffe09400"
-        android:textSize="12dp" />
+        android:textSize="17dp" />
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:text="Pill"
-        android:id="@+id/buttonPill"
-        android:layout_above="@+id/patientButton"
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Who Are You?"
+        android:id="@+id/textViewWhoAreYou"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#ffffffff"
-        android:background="#ff99bbbe"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginTop="49dp"
+        android:textSize="48dp"
+        android:textStyle="normal"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="#fffefffd" />
 </RelativeLayout>
